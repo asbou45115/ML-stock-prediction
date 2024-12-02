@@ -20,3 +20,6 @@ __pycache__/
 
 # Ignore local environment files
 .env
+
+venv_setup.txt
+api_key.py
