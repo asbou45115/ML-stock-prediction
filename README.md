@@ -56,7 +56,7 @@ Create a file named api_key.py in the project root directory, and define your AP
 key = 'your_alpha_vantage_api_key'
 ```
 
-## Usage
+# Usage
 
 ## 1. Run the Stock Data Generator
 To generate the stock data for a specific symbol, run the following command. The data will be saved in the data/ folder.
