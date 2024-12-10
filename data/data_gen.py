@@ -1,7 +1,12 @@
 import requests
+import sys
 from api_key import key
 
-stock_symbol = input("Enter Stock Symbol: ").upper().strip()
+if len(sys.argv) != 2:
+    print("Usage: python data_gen.py STOCK_SYMBOL")
+    sys.exit(1)
+
+stock_symbol = sys.argv[1].upper().strip()
 
 url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={stock_symbol}&outputsize=full&apikey={key}&datatype=csv'
 

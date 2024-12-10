@@ -1,13 +1,34 @@
 import pandas as pd
 import numpy as np
+import os
+import sys
+import subprocess
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-stock = 'SPY'
-filename = f'data/{stock}_stock_data.csv'
+if len(sys.argv) != 2:
+    print("Usage: python predictor.py STOCK_SYMBOL")
+    sys.exit(1)
+
+stock = sys.argv[1].upper().strip()
+
+def load_filename():
+    filename = f'data/{stock}_stock_data.csv'
+
+    # If file does exist use data otherwise generate data with data_gen.py
+    if not os.path.exists(filename):
+        print(f'File {filename} NOT FOUND. Generating data...')
+        try:
+            subprocess.run(['python', 'data/data_gen.py', stock], check=True)
+            filename = f'{stock}_stock_data.csv'
+        except subprocess.CalledProcessError as e:
+            print(f"Error generating data for {stock}: {e}")
+            sys.exit(1)
+            
+    return filename
 
 """
 Load stock data from a CSV file and preprocess the DataFrame.
@@ -207,7 +228,9 @@ def predict_future_prices(model, last_sequence, scaler, test_dates, days_to_pred
     return np.array(future_predictions), future_dates
 
 def main():
+    filename = load_filename()
     df = load_data(filename)
+    
     scaled_data, scaler, original_dates = preprocess_data(df)
     X, y = create_sequences(scaled_data, time_step=50)
     
