@@ -2,6 +2,8 @@
 
 This project uses machine learning techniques to predict stock prices. The data is retrieved from Alpha Vantage API, processed, and used to train an LSTM (Long Short-Term Memory) model for stock price prediction. The code is divided into several components, including data generation, preprocessing, model building, and prediction.
 
+![image](https://github.com/user-attachments/assets/accf9dcd-d7d5-4aa4-847b-f33b81acbefb)
+
 ## Project Overview
 The goal of this project is to predict future stock prices based on historical data using LSTM neural networks. The project is structured to:
 
