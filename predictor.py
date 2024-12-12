@@ -16,14 +16,16 @@ if len(sys.argv) != 2:
 stock = sys.argv[1].upper().strip()
 
 def load_filename():
-    filename = f'data/{stock}_stock_data.csv'
+    filename = f'{stock}_stock_data.csv'
 
     # If file does exist use data otherwise generate data with data_gen.py
     if not os.path.exists(filename):
+        if os.path.exists('data/' + filename):
+           return 'data/' + filename
+        
         print(f'File {filename} NOT FOUND. Generating data...')
         try:
             subprocess.run(['python', 'data/data_gen.py', stock], check=True)
-            filename = f'{stock}_stock_data.csv'
         except subprocess.CalledProcessError as e:
             print(f"Error generating data for {stock}: {e}")
             sys.exit(1)
@@ -140,7 +142,7 @@ Returns:
 """
 def train_evaluate_model(model, X_train, y_train, X_test, y_test, scaler):
     # Train the model
-    model.fit(X_train, y_train, batch_size=64, epochs=10, validation_split=0.1)
+    model.fit(X_train, y_train, epochs=30, validation_split=0.1)
     
     # Make predictions on test data
     predictions = model.predict(X_test)
@@ -202,7 +204,7 @@ Returns:
         - numpy.ndarray: Predicted future stock prices
         - pandas.DatetimeIndex: Dates for future predictions
 """
-def predict_future_prices(model, last_sequence, scaler, test_dates, days_to_predict=30):
+def predict_future_prices(model, last_sequence, scaler, test_dates, days_to_predict):
     current_sequence = last_sequence.copy()
     future_predictions = []
     
@@ -249,7 +251,7 @@ def main():
     test_dates = original_dates[len(original_dates) - len(y_test_rescaled):]
     
     # Predict future prices
-    last_sequence = scaled_data[-50:]  # Use the last 50 days of scaled prices
+    last_sequence = scaled_data[-100:]  # Use the last 100 days of scaled prices
     future_predictions_scaled, future_dates = predict_future_prices(trained_model, last_sequence, scaler, test_dates, days_to_predict=30)
     
     # Plot historical and future predictions
