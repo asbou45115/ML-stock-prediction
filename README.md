@@ -1,5 +1,7 @@
 # Stock Price Prediction
 
+**DISCLAIMER: Trading using this ML predictor does not guarantee profits or loss. You accept full responsibilities for your trades.**
+
 This project uses machine learning techniques to predict stock prices. The data is retrieved from Alpha Vantage API, processed, and used to train an LSTM (Long Short-Term Memory) model for stock price prediction. The code is divided into several components, including data generation, preprocessing, model building, and prediction.
 
 ![image](https://github.com/user-attachments/assets/accf9dcd-d7d5-4aa4-847b-f33b81acbefb)
